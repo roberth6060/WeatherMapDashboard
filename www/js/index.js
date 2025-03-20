@@ -1,13 +1,12 @@
-document.addEventListener('deviceready', onDeviceReady, false);
+document.addEventListener('deviceready', getCurrentLocation, false);
 
-function onDeviceReady() {
-    // Cordova is now initialized. Have fun!
-
-    console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
-    document.getElementById('deviceready').classList.add('ready');
+function getCurrentLocation() {
+   navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+       enableHighAccuracy: true,
+       timeout: 5000,
+       maximumAge: 0
+   });
 }
-
-navigator.geolocation.getCurrentPosition( onSuccess, onError, { timeout: 30000 } );
  
 function onSuccess( position ) {
    if ( position.coords ) {
@@ -37,13 +36,46 @@ function onSuccess( position ) {
             //Intialize location details: 
             document.querySelector('.city').innerText = city || state || country;
             document.querySelector('.coordinates').innerText = `Latitude: ${latitude.toFixed(2)}, Longitude: ${longitude.toFixed(2)}`;
-
+            
+            // Fetch and display the weather data
+            fetchWeather(latitude, longitude);
         });
    }
+}
+
+function fetchWeather(latitude, longitude) {
+   // Use Open-Meteo API to get weather data
+   const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`;
+
+   fetch(weatherUrl)
+       .then(response => {
+           if (!response.ok) {
+               throw new Error('Network response was not ok');
+           }
+           return response.json();
+       })
+       .then(data => {
+           // Check if data is returned and contains current weather information
+           if (!data.current_weather) {
+               throw new Error('No weather data available');
+           }
+
+           // Extract temperature from the data
+           const temperature = data.current_weather.temperature; // Get temperature in Celsius
+           document.querySelector('.temperature').innerText = `${temperature}°C`;
+
+           // Update the current time
+           const localDate = new Date();
+           document.querySelector('.time').innerText = localDate.toLocaleTimeString();
+       })
+       .catch(error => {
+           console.error('Error fetching weather data:', error); // Log any errors
+           document.querySelector('.temperature').innerText = 'N/A'; // Fallback for temperature
+           document.querySelector('.time').innerText = new Date().toLocaleTimeString(); // Fallback for time
+       });
 }
 
 function onError(error) {
    alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n');
 }
 
-google.maps.event.addDomListener( window, 'load', onSuccess );
