@@ -8,13 +8,13 @@ The "Weather Map Dashboard" app will provide users with real-time weather data b
 
 ## Features
 - **Geolocation**: Automatically detects the user's location using the device's geolocation API.
-- **Map Integration**: Displays the user's current location on a Google Map.
+- **Map Integration**: Displays the user's current location on a Leaflet Map.
 - **Reverse Geocoding**: Converts geographic coordinates into a human-readable address to show city, state, and country.
 - **Responsive Design**: Ensures the app works well across various devices and screen sizes.
 
 ## Technologies Used
 - Apache Cordova for hybrid mobile application development.
-- Google Maps JavaScript API for map functionalities.
+- Leaflet Maps JavaScript API for map functionalities.
 - OpenStreetMap's Nominatim API for reverse geocoding.
 
 ## Instructions for Use
