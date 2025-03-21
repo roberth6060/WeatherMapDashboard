@@ -1,8 +1,8 @@
 {
   "name": "com.rhaye.weathermapdashboard",
-  "displayName": "WeatherMapDashboard",
+  "displayName": "Weather Map",
   "version": "1.0.0",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "description": "App to track weather in selected location .",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,7 @@
   "keywords": [
     "ecosystem:cordova"
   ],
-  "author": "Apache Cordova Team",
+  "author": "Robert Haye",
   "license": "Apache-2.0",
   "devDependencies": {
     "cordova-android": "^13.0.0",
